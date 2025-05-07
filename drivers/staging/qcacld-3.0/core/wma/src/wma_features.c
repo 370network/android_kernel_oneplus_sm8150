@@ -3007,14 +3007,16 @@ static void wma_wake_event_log_reason(t_wma_handle *wma,
 			 wake_info->wake_reason,
 			 wake_info->vdev_id,
 			 wma_vdev_type_str(vdev->type));
+
+	qdf_wow_wakeup_host_event(wake_info->wake_reason);
+	qdf_wma_wow_wakeup_stats_event(wma);
+
 	} else if (!wmi_get_runtime_pm_inprogress(wma->wmi_handle)) {
-		WMA_LOGA("Non-WLAN triggered wakeup: %s (%d)",
+		WMA_LOGA("Attempted a Non-WLAN triggered wakeup: %s (%d)",
 			 wma_wow_wake_reason_str(wake_info->wake_reason),
 			 wake_info->wake_reason);
 	}
 
-	qdf_wow_wakeup_host_event(wake_info->wake_reason);
-	qdf_wma_wow_wakeup_stats_event(wma);
 }
 
 /**
